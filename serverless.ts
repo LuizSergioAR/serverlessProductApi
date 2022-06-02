@@ -4,6 +4,7 @@ import createProduct from "@functions/createProduct";
 import getProduct from "@functions/getProduct";
 import getAllProducts from "@functions/getAllProducts"; 
 import deleteProduct from "@functions/deleteProduct";
+import updateProduct from "@functions/updateProduct";
 
 const serverlessConfiguration: AWS = {
 	service: "serverlessapi",
@@ -66,7 +67,7 @@ const serverlessConfiguration: AWS = {
 		},
 	},
 	// import the function via paths
-	functions: { createProduct, getProduct, getAllProducts, deleteProduct },
+	functions: { createProduct, getProduct, getAllProducts, deleteProduct, updateProduct },
 	package: { individually: true },
 	custom: {
 		esbuild: {
