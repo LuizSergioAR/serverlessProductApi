@@ -5,7 +5,9 @@ import { middyfy } from "@libs/lambda";
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-const getProduct: ValidatedEventAPIGatewayProxyEvent<void> = async (event) => {
+const deleteProduct: ValidatedEventAPIGatewayProxyEvent<void> = async (
+	event
+) => {
 	const idValue = event.pathParameters.id;
 
 	try {
@@ -25,7 +27,17 @@ const getProduct: ValidatedEventAPIGatewayProxyEvent<void> = async (event) => {
 			};
 		}
 
+		await docClient
+			.delete({
+				TableName: "ProductsTable",
+				Key: {
+					id: idValue,
+				},
+			})
+			.promise();
+
 		return formatJSONResponse({
+            message: 'Produto deletado com sucesso',
 			Item: output.Item,
 		});
 	} catch (error) {
@@ -36,4 +48,4 @@ const getProduct: ValidatedEventAPIGatewayProxyEvent<void> = async (event) => {
 	}
 };
 
-export const main = middyfy(getProduct);
+export const main = middyfy(deleteProduct);

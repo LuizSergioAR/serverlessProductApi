@@ -2,6 +2,8 @@ import type { AWS } from "@serverless/typescript";
 
 import createProduct from "@functions/createProduct";
 import getProduct from "@functions/getProduct";
+import getAllProducts from "@functions/getAllProducts"; 
+import deleteProduct from "@functions/deleteProduct";
 
 const serverlessConfiguration: AWS = {
 	service: "serverlessapi",
@@ -56,14 +58,15 @@ const serverlessConfiguration: AWS = {
 							"dynamodb:DeleteItem",
 							"dynamodb:Scan",
 						],
-						Resource: "arn:aws:dynamodb:us-east-1:964257865134:table/ProductsTable",
+						Resource:
+							"arn:aws:dynamodb:us-east-1:964257865134:table/ProductsTable",
 					},
 				],
 			},
 		},
 	},
 	// import the function via paths
-	functions: { createProduct, getProduct },
+	functions: { createProduct, getProduct, getAllProducts, deleteProduct },
 	package: { individually: true },
 	custom: {
 		esbuild: {
