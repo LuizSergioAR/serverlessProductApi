@@ -3,5 +3,5 @@
     "Content-Type": "application/json"
   },
   "pathParameters": {"id":"8438e67c-280f-438d-89b3-e3dc754a439a"},
-  "body": "{\"name\": \"Computador\"}"
+  "body": "{}"
 }

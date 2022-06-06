@@ -1,10 +1,16 @@
 import type { AWS } from "@serverless/typescript";
 
-import createProduct from "@functions/createProduct";
-import getProduct from "@functions/getProduct";
-import getAllProducts from "@functions/getAllProducts"; 
-import deleteProduct from "@functions/deleteProduct";
-import updateProduct from "@functions/updateProduct";
+import createProduct from "@functions/Products/createProduct";
+import getProduct from "@functions/Products/getProduct";
+import getAllProducts from "@functions/Products/getAllProducts"; 
+import deleteProduct from "@functions/Products/deleteProduct";
+import updateProduct from "@functions/Products/updateProduct";
+
+import createUser from "@functions/Users/createUser";
+import getUser from "@functions/Users/getUser";
+import getAllUsers from "@functions/Users/getAllUsers"; 
+import deleteUser from "@functions/Users/deleteUser";
+import updateUser from "@functions/Users/updateUser";
 
 const serverlessConfiguration: AWS = {
 	service: "serverlessapi",
@@ -16,6 +22,28 @@ const serverlessConfiguration: AWS = {
 				Type: "AWS::DynamoDB::Table",
 				Properties: {
 					TableName: "ProductsTable",
+					AttributeDefinitions: [
+						{
+							AttributeName: "id",
+							AttributeType: "S",
+						},
+					],
+					KeySchema: [
+						{
+							AttributeName: "id",
+							KeyType: "HASH",
+						},
+					],
+					ProvisionedThroughput: {
+						ReadCapacityUnits: 1,
+						WriteCapacityUnits: 1,
+					},
+				},
+			},
+			UsersDynamoTable: {
+				Type: "AWS::DynamoDB::Table",
+				Properties: {
+					TableName: "UsersTable",
 					AttributeDefinitions: [
 						{
 							AttributeName: "id",
@@ -60,14 +88,14 @@ const serverlessConfiguration: AWS = {
 							"dynamodb:Scan",
 						],
 						Resource:
-							"arn:aws:dynamodb:us-east-1:964257865134:table/ProductsTable",
+							"arn:aws:dynamodb:us-east-1:964257865134:table/*",
 					},
 				],
 			},
 		},
 	},
 	// import the function via paths
-	functions: { createProduct, getProduct, getAllProducts, deleteProduct, updateProduct },
+	functions: { createProduct, getProduct, getAllProducts, deleteProduct, updateProduct, createUser, getUser, getAllUsers, deleteUser, updateUser },
 	package: { individually: true },
 	custom: {
 		esbuild: {
